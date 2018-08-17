@@ -1,0 +1,20 @@
+*Regular expression
+-Special/Meta characters: we have some of the reserved characters for regex operation
+
+*Character class []
+
+-[abc]: matches ONLY one character which is either 'a' or 'b' or 'c'
+-[^u]: matches any character(should be one character, empty will not be mathced) which is NOT 'u'. 
+	ex: q[^u] doesNOT matches 'q' in "Iraq" because there is no chracter after 'q'
+-The only Meta characters inside square bracket is ] \ - ^ otherwise every character is considered as normal.
+-[0-9]+ : repeat this character class. like [0-9][0-9][0-9][0-9]...
+
+
+. dot matches any single character
+{} : match the exact or range of occurance of character
+Ex: {2} : exact two occurance
+	{1,4} : min 1 and max 4 occurance
+	{1,} : min 1 and max infinite
+
+Read all the special characters meaning
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions

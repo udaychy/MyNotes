@@ -1,0 +1,176 @@
+*NodeJS: 
+	-helps to run JavaScript outside the browser
+	-uses the chrome JavaScript engine
+	-central repository from where we can get any JavaScript framework using NPM
+	
+* require('fileName.js') returns all the 'export' classes/component present in the 'fileName.js'
+
+*Common JS:
+- Helps the JS to break into modules
+- Just a specification that how two/more modules define their dependency on each other
+
+In JS it uses "Require" and "Exports" keywords to define dependency under CommonJS specification
+In TS we uses "import" and "export" keywords which futher transpiled into "Require" and "Exports"[1]
+
+Remember there is no such keywords(Require and Exports) in JS
+we need an external Module Loader to implement this CommonJS specification('Require' and 'Exports')
+( or say to load these modules)
+Ex: System JS, Require JS, Webpack
+
+There are specifications other than common JS like AMD, ESM and these modules loaders supports many specification/formats
+
+we just need to write the code to load the main module/js file using System.js and 
+all the dependent modules/js files will be loaded automatically by System.js as we
+are using commonjs pattern('require and export').
+
+* TS internally supports commonjs specification
+
+
+*Webpack
+	webpack "MainModule.js" "Bundle.js" --output-library='BundleLibrary'
+
+It takes the MainModule.js file and figure out all the dependent modules/js files using module specification(commonjs)
+and generate a single Bundle.js file and expose one output library(here 'BundleLibrary') through which we can access all the classes/component
+
+*Systemjs.config.js
+
+Lets say we have imported {Component}class in our CustometComponent.ts
+import {Component} from "@angular/core"
+
+Now we need two thing
+1. An angular core JS file which will be loaded by the system.js in browser
+2. A TS file which contains the defination of {Component} class which we are
+going to use in our CustometComponent.ts for development purpose.
+
+Before Traspile:
+Ques: "@angular/core" is not an absolute path nor relative
+	so how does TS locate this angular core {Component} class?
+Ans: There is one property named "moduleResolution" which takes two values "classic" and "node"
+	When this property is set to "node" then TS tries to locate components in “node_modules” folder
+
+After Transpilation:	
+If commonjs is used then the above code will be transpiled to
+ var core_1 = require("@angular/core");
+ 
+Ques: "@angular/core" is not an absolute path nor relative
+	so how does Systemjs load the required core JS file
+Ans: There is one file systemjs.config.js file which contains one property "map"
+ where we map this path to actual physical path
+ map: {
+ ...
+  '@angular/core': 'node_modules/@angular/core/bundles/core.umd.js'
+ ...
+ }
+ __________________________________________________________________
+ 
+ (@Component decorator + OurComponentClass) = Binding Code
+ 
+ @Component()
+ export class MyComponent{
+	// object/models here will be exposed to its respective UI
+ }
+ 
+ - using decorator we can convert our class into that decorator type
+ 
+ FLOW:
+	We have a main page "index.html" which will load System.js then
+	systemjs will load the main/startup.js file which contains the code 
+	for rendering the main module and finally the dependent modules will be loaded
+	
+
+
+
+__________________________________________________________________
+Till now what i understand is If Routing is added then it will be added on module level
+to switch between the components and child modules of that Module.
+
+we map the relative path with the components/child modules
+
+
+__________________________________________________________________
+*Validation(Model Driven Validation)
+
+we need three things
+-FormControl: Contains the validation logic
+-FormGroup: Collection of FormControl validation
+-FormBuilder : Builder to create the FormGroup object
+
+Now our model will be like this
+{
+	data1: "value1"
+	data2: "value2"
+	data3: {}
+	
+	formFroup: { // detail about the validation of each data
+	which is binding to the UI
+	}
+}
+
+__________________________________________________________________
+- An component is called when its 'selector'/directive is rendered in the page
+-Parent Child component means Parent Component uses the Child component, 
+
+*Component function
+	The main use of component is to bind the model with UI 
+	- Either we take data from the UI and set into the model
+	- Or we bind the model data into UI to display the data in UI
+		now either we fetch the data from service
+		or set the model as @input which means now it's the responsibility of that component(parent) which is
+		going to use this component(child) to provide the data as input
+		
+	
+In simple child component selector tag is somewhere used inside the Parent component template
+but the problem is we cannot directly access the child model inside our Parent component.
+
+- The way we communicate between parent child component goes through UI/Template(tags) (not directly between the components)
+	the reason may be the UI/Template and Component works only when they are together
+
+<button type="button" onclick="buttonClicked()"></button>
+<grid-ui grid-data="customerList" on-grid-select="gridSelected()"></grid-ui>
+
+Now if we compare these two elements then we can understand angular directive in a better way
+"type" and "grid-data" inputs some values and depending on the input value the grid-ui will render differently.
+Just like onclick is an event and when this event is emitted then "buttonClicked" method is called.
+same thing is happeing with "on-grid-select". 
+"on-grid-select" represents one event which when emitted then "gridSelected" method will be called.
+
+
+
+
+__________________________________________________________________
+CLI and Deployment
+
+ng g c component-name --spec=false --style=scss
+service :
+ng g s service-name --module=module-name
+
+*ng serve builds the files in memory so we are are not able to see the compiled js files as it does write to the disk
+and cannot be used to deploy in production
+if we build the app using this command 'ng build' then we can see the output folder where all the final
+js files and html are placed after bundling by the webpack
+
+*In production build, the files go through
+Minification(remove the white spaces/comments), Uglification(shorting of identifiers), Tree shaking(removing the unused codes/components), 
+AOT(Ahead of time) compilation(components and templates are precompiled means compiled during build time)
+
+*Angular Compilation: JIT and AOT
+JIT: -Browser needs to download the Angular Compiler(inside vendor.js)and compiles the files in the browser at run time
+	-Template binding errors are found on run time when we launch the browser
+AOT: Compiles the file during build time and DOES NOT need to download the angular compiler and also NO NEED to compile the files at browser
+	-Template binding  errors are found on build time
+
+
+
+
+
+	
+	
+	
+[1]: Depending upon the type of specification choosen in the tsconfig.json file
+TS will transpile the "import" and "export" into that specification.
+ Ex: CommonJS : import(in TS) => require(in JS)
+		AMD: import(in TS) => define(in JS)
+
+
+
+

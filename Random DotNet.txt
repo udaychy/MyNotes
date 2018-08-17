@@ -1,0 +1,35 @@
+***
+	A big difference between MVC and WebAPI is in how they process the bodies of requests.
+ MVC would analyze the body and map it to individual parameters in the method signature.
+ WebAPI treats all bodies as a single object and will return create a single POCO from the request body
+ 
+ POCO: Plain/Simple object of class which is NOT inherited from other base class. Inshort- Simple class, No Jhol jhaal
+ 
+ ValidateAntiForgeryToken: 
+ This attribute helps to prevent CSRF attacks on services by setting an encrypted cookie 
+ and hidden field when a web page is requested. When submitted the cookie and a header are submitted and validated to ensure that they match.
+ Since a 3rd party site will not be able to access the cookie value they will not be able to set ann appropriate header in a CSRF style attack
+ 
+ Machine Key in web config:
+  authentication cookies/password are encrypted using the machine keys. Antiforgery tokens are also encrypted using machine key
+  
+ Why is there a difference in the validateantiforgerytoken cookie value and hidden form value?
+ The __RequestVerificationToken hidden field contains a random component (matching the one in the cookie)
+ and also the have some user info(obtained from HttpContext.User.Identity.Name and then encrypted using machine key).
+
+ 
+Managed code is not compiled to machine code but to an intermediate language which is interpreted and executed by some service(.NET Runtime/CLR)
+on a machine and is therefore operating within a (hopefully!) secure framework which handles dangerous things like memory and threads for you
+
+Unmanaged code is compiled to machine code and therefore executed by the OS directly.
+It therefore has the ability to do damaging/powerful things Managed code does not. (https://stackoverflow.com/a/334355)
+
+Common Language Runtime/.NET runtime (CLR): virtual machine component of Microsoft's .NET framework, manages the execution of .NET programs.
+ A process known as just-in-time compilation converts compiled code into machine instructions which the computer's CPU then executes.
+
+A .NET DLL(Dynamic Linked Library) contains Intermediate Language which requires the .NET runtime to execute it and probably some .NET base libraries that it uses/depends on.
+This means that the DLL can only be used on hardware/operating systems that have a matching .NET Framework available.
+means IIS also need .NET framework(i guess?)
+
+All the DLL, Exe file created by managed code need the .Net Framework/runtime to run on the machine.
+Only unmanaged codes(c, c#) does NOT need runtime environment, They directly interact with the OS

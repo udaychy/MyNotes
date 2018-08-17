@@ -1,0 +1,18 @@
+-Index.html
+**ion-app
+	-placed inside the index.html page
+	-app will be loaded here
+	
+	
+-App.html
+**ion-nav
+	this is main component/tags inside which we push/pop all other pages
+	we set one page as the root of the ion-nav and upon that root page we push/pop other pages.
+	if we pop all the pages then we will left with root page (Think of this as a stack)
+	
+	-generally we place this tags in the main app.html
+	
+	
+**ion-menu
+	side menu, <ion-menu> element should be added as a sibling to the <ion-nav>.
+	A local variable should be added to the ion-nav and passed to the ion-menus content property.

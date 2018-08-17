@@ -1,0 +1,74 @@
+- Async code emits events then only we come the know the task is completed 
+- We should hide the implementation details to other classes/modules/files
+- Factory is method which returns object
+
+Interface
+- Shared boundry
+- Interface helps to decouple classes
+-A class or struct can implement multiple interfaces, 
+but a class can inherit only a single class, abstract or not. 
+Therefore, by using interfaces, you can include behavior from multiple sources in a class
+- Using interface adds an abstraction layer which hides the implementation
+- Make managable, extensible, testable
+
+
+A class implemeting an interface promises to implement the methods/prop present in the interface
+Using that interface, Other classes can access those prop/methods of class which is present in interface
+
+Extension Method:
+static method of a static class, where "this" modifier is applied to the first parameter.
+The type of the first parameter will be the type that is extended.
+
+Delegate: reference of a function, which can be used to pass as a parameter to other function
+	without knowing its definition at compile time.
+	"Func" in short is parameterized delegate. 
+	In C#, a delegate instance points towards a method. When a caller invokes the delegate,
+	it calls its target method. This way, the caller is not invoking the target method rather 
+	invoking the delegate which can call the target method. 
+	We do it because it creates an abstraction on invoking the target method.
+	We of course always can invoke a method directly but decoupling of the client and target method 
+	is sometimes a need or gives us more flexibility to make things clean and simple.
+
+If server does NOT set the content type in the response header then Browser has no
+idea how to render the Response body, as a text, html, css etc.
+
+Implicit base class of every class in .Net is System.Object
+
+w3wp is worker process of IIS which runs the web application and
+each application pool creates atleast one instance of w3wp.
+it handle request sent to the web service
+
+MVC Design pattern: Controller(handle request and Figure out the model) -> Model(Contain data) -> View(Use the model data to construct the html)
+
+- One oops principle: Program to Interface not implementation
+SOLID:
+ LSP indicates is that subtype behavior should match base type behavior as defined in the base type specification
+ 
+Boxing: Convert value type to Object Type
+
+In JS the default scope for executing functions is the Window object
+Call function basically allows you to call a function defined somewhere else, but in the current context("this")
+
+V8 engine compiles JavaScript code into machine code at execution by implementing a JIT (Just-In-Time) compiler
+ The main difference with V8 is that it doesn’t produce bytecode or any intermediate code like other Engines.
+ 
+Compilation vs Interpreter: https://softwareengineering.stackexchange.com/questions/136993/interpreted-vs-compiled-a-useful-distinction
+
+Maintianability :  is inversely proportional to the amount of time it takes a developer to make a change
+	and the risk that change will break something
+	Change at one place should be reflected at everywhere
+	
+Flexible:
+
+Design Pattern:
+
+
+
+REST API
+REST allows a greater variety of data formats, whereas SOAP only allows XML.
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+DEMO: https://tburleson-layouts-demos.firebaseapp.com/#/docs
+
+Lets take an example of ul li where ul is set to be an flexbox container
+and all the li are the child items of the flex container
+
+-The main container should be 'display:flex'
+
+*child property:
+-'flex-grow: 1' will equally divide the width of the li elements across the screen 
+even if we have set the width of li.
+ we can change the proportion of child li by assigning different values to 'flex-grow' to each li item
+-'order: odrerNumber'
+
+
+
+*parent property
+flex-direction: row/row-reverse/column/column-reverse
+
+'flex-wrap:wrap' : if we set the width of the child items then once the size of 
+screen reduces to less than the combined width of all child items then items will be
+wraped to next line.
+ 
+'justify-content': (horizontal spacing/placement)
+ if the flex-grow property is not set then the width of the items will be its width value('width' property).
+In that case we can use the 'justify-content' property
+
+justify-content: flex-start/flex-end/center/space-between/space-around
+
+'align-items': same as justify-content but vertical spacing/placement
+ If we set the height of the parent container then this property will 
+ help for the vertical alignment
+ 
+align-items: flex-start/flex-end/center/stretch/baseline
+
+
+
+*child property
+ align-self : just to override the align-items value for specific child

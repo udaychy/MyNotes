@@ -1,0 +1,27 @@
+ASP Core
+
+- ASP.NET Core application is structured as a console mode application that we can run from the command-line.
+	dotnet runtime finds the entry point ie Main method, and this method builds web host
+	
+- Uses its own hosting server Kestral(by default) instead of IIS server, which supports cross platform.
+	but if you run using VS(instead of CLI) then your web host will placed behind the IIS server, act like a proxy server which forwards the request to
+	the App but the application is a separate process that is up and running and has its own server. 
+	
+	WebHost.CreateDefaultBuilder(args) // Initializes a new instance of the Microsoft.AspNetCore.Hosting.WebHostBuilder class with pre-configured defaults.
+
+-Startup.cs
+	-Configure: Configure the HTTP request pipeline.
+		Configurations can be read from these 
+			appsettings.json file(similiar to web config file), User secrets, Envt variables, command line arguments
+		and IConfiguration service will help us to read these values.
+		Override order(ascending): appsettings.json -> Envt variables -> command line arguments
+		
+	-ConfigureServices: Register your own service(class) which you can ask framework to inject anywhere throughout your application and framework will
+	inject this at runtime.
+
+-AspCoreDemo.csproj	
+	Core csproj does NOT contain the list of source files that are the part of the project unlike ASP.NET.
+	File system determines what is in the project, Every files/folder present inside the app is the part of the project.
+	
+	<PackageReference Include="Microsoft.AspNetCore.App" /> : this single package  brings all the packages related to the Microsoft core
+	

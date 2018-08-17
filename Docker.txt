@@ -1,0 +1,62 @@
+HyperV virtualises PHYSICAL resources(RAM, CPU) and creates VM 
+Container like Docker virtualises/slices OPERATIN SYSTEM resources(process, network	, file system)
+
+Docker virtualises OS, they create virtual operating systems, assign one to each container, inside of which we run applications. 
+And they're way more lightweight than VMs
+
+Docker is an open platform that enables developers and administrators to build images, ship, and run 
+distributed applications in a loosely isolated environment called a container
+
+$docker run helloworld : 
+docker client calls the docker deamon to start a new container with helloworld template/image, if helloworld image
+is not found in the local file system of docker deamon then it will pull the helloworld template from the docker hub and
+return a new container with the configuration of helloworld template.
+
+Image -> Stopped Container
+Conainer -> Running Image
+
+Each container is an image with a readable/writeable layer on top of a bunch of read-only layers
+These layers (also called INTERMEDIATE IMAGES) are generated when the commands in the Dockerfile are executed during the Docker image build
+
+single container can have multiple images
+
+BUILD and RUN
+docker build -t <ImageName> -f <Docker File Path from PWD> .
+docker run --name <name> --rm -it -p 8000:5106 <ImageName>
+
+
+# docker-compose build
+# docker-compose up
+
+If you are using Docker Toolbox on Windows 7,
+ use the Docker Machine IP instead of localhost.
+ To find the IP address, use the command docker-machine ip. (192.168.99.100)
+ 
+
+
+docker-compose.yml : used for defining and running multi-container Docker applications in isolated environment.
+It contains the list of services (containers)
+
+*Connect to Your Local SQL Server From Inside Docker
+	Open SQL Server Configuration Manager and make sure TCP/IP is enabled inside the "protocols of MSSQLSERVER"
+	Server=tcp:192.168.56.1,1433;Integrated Security=false;Initial Catalog=Microsoft.eShopOnWeb.CatalogDb;User ID=sa;Password=mindfire
+	
+	
+
+	
+
+
+	
+Sample MicroServices Project:
+
+1.Add a Services folder
+2.Add two folders for two projects User.API and Admin.API
+3.Create mvc web projects inside both the project folders
+	> dotnet new mvc
+	
+4.Create the solution file in root folder	
+	> dotnet new sln
+5.Add the project in the solution file
+	> dotnet sln SampleMicroService.sln add Services/Admin.API/Admin.API.csproj
+	> dotnet sln SampleMicroService.sln add Services/User.API/User.API.csproj
+

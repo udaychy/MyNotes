@@ -1,0 +1,87 @@
+https://colintoh.com/blog/staying-sane-with-asynchronous-programming-promises-and-generators
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
+https://medium.com/@thejasonfile/how-node-and-javascript-handle-asynchronous-functions-7feb9fc8a610
+https://medium.com/@luukgruijs/understanding-creating-and-subscribing-to-observables-in-angular-426dbf0b04a3
+https://coryrylan.com/blog/angular-multiple-http-requests-with-rxjs
+https://scotch.io/tutorials/angular-2-http-requests-with-observables
+
+
+Common JS
+Common js is just a specification that how two modules define their dependency and we need an external loader to load these modules
+and implement these specification.
+
+https://angular.io/tutorial
+
+
+
+how to perform multiple dependent http calls in Angular
+
+One common approach that will come to your mind first is the Nested calls(like callbacks)
+this.http.get('/api/getToken').subscribe(token => {
+      this.http.get('/api/login', token).subscribe(loginStatus => {
+        // if login status is success then redirect
+		//else show login status as error message
+      });
+    });
+	
+The problem with this approch is the nesting pyramid which is not readable.
+and if you have heard of callback hells then you will get my point
+
+Lets say our requirement changes
+1. If we need to break these two http calls in two different methods so that it can be resused
+2. we need to return the inner observable value from its method, In our case it is loginStatus value
+
+We are going to use the custom observables here 
+
+
+
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: 'app/app.component.html'
+})
+export class AppComponent {
+  loadedCharacter: {};
+  constructor(private http: HttpClient) { }
+  
+  ngOnInit() {
+    this.http.get('/api/getToken').subscribe(character => {
+      this.http.get(character.homeworld).subscribe(homeworld => {
+        character.homeworld = homeworld;
+        this.loadedCharacter = character;
+      });
+    });
+  }
+}
+
+how to do observable chaining
+
+
+Understading the Observables and Subscription
+
+How we evolved from callbacks to promise and then observables
+
+If you are from the javascript or jquery background then you must have used the callbacks and promises
+ 
+Why we need all this
+When multiple async operations(functions) are depenedent on each other on their execution order.
+
+function wakeUp(){
+	console.log('woke up')
+}
+function eatMyBreakFast(){
+	console.log('started eating');
+	setTimeOut(function(){ console.log('breakfast done');
+	}, 5000);
+}
+function goToOffice(){
+	console.log('going to office');
+}
+
+wakeUp();
+eatMyBreakFast();
+goToOffice();
+
+lets say we need to execute these three functions in this specific order. means when function1 completes

@@ -1,0 +1,28 @@
+Git:  https://github.com/ajtowf/angularmaterial/blob/master/src/app
+
+
+-Install the Nodejs, Typescript, Angular, Angular CLI
+-Install material and cdk
+	npm install --save @angular/material @angualr/cdk
+
+
+*Children component:
+
+{
+	path:'', component: ContactManagerComponent, 
+		children: [
+			{path:'main', component: MainContentComponent}
+		]
+}
+For both the path 'localhost/4200' and 'localhost/4200/main' "ContactManagerComponent" component will be loaded
+because it is set as parent component.
+But the "MainContentComponent" component will only be loaded for this path 'localhost/4200/main'
+
+*Component Interaction
+The local variable approach is simple and easy. 
+But it is limited because the parent-child wiring must be done entirely within the parent template.
+The parent component itself has no access to the child.
+
+*Route
+One is ActivatedRoute which we have used to subscribe the params(in main-content.component.ts)
+Another is Router which we have used to navigate (in sidenav.component.ts)

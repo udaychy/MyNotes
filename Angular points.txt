@@ -1,0 +1,7 @@
+Angular JIT and AOT
+JIT: Angular compiler code is loaded into the browser (which is roughly half the size of angular itself) 
+	compiles your app in the browser at runtime, 
+	
+	*** compiles means components and html templates is converted to executable JavaScript(NOT machine code)
+
+AOH: Compiles the app into JS during build time and browser donot need to download angular compiler anymore.
