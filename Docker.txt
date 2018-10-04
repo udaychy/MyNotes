@@ -18,6 +18,9 @@ Conainer -> Running Image
 Each container is an image with a readable/writeable layer on top of a bunch of read-only layers
 These layers (also called INTERMEDIATE IMAGES) are generated when the commands in the Dockerfile are executed during the Docker image build
 
+when we build a docker image then it is saved inside docker engine, NOT in the local machine.
+That's why we didn't see any images when docker quickterminal is closed.
+
 single container can have multiple images
 
 BUILD and RUN
@@ -43,8 +46,35 @@ It contains the list of services (containers)
 	
 	
 
-	
+Docker File:
 
+When you issue a docker build command, the current working directory is called the build context. 
+Build Context meaning the whole project file system from current working directory.
+
+WORKDIR /app
+* create directory 'app' in the container if not exist and start pointing to it.
+Now the current directory is 'app' inside the container
+
+COPY . .
+Default Source is Build Context and destination is current directory(here 'app') inside container.
+Copy all the files in build context to one folder 'app' inside the container
+
+
+RUN dotnet restore
+Restore all the packages using .csproj or .sln file
+
+RUN dotnet publish -c Release -o out
+Compile and publish the application in Release mode configuration in output directory 'out'
+
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
+WORKDIR /app
+
+COPY --from=build /app/out ./
+Source is changed to the files generated on build inside container and not to the build context.
+if '--from=build' is omitted then it will look into the /app/out of build context which might not exist and build will fail.
+
+
+ENTRYPOINT ["dotnet", "BasicApi.dll"]
 
 	
 Sample MicroServices Project:
@@ -60,3 +90,73 @@ Sample MicroServices Project:
 	> dotnet sln SampleMicroService.sln add Services/Admin.API/Admin.API.csproj
 	> dotnet sln SampleMicroService.sln add Services/User.API/User.API.csproj
 
+	
+	
+======================================================================================
+DOCKER SWARM
+
+Initialize the docker swarm and make current node a manager
+> docker swarm init --advertise-addr 192.168.99.100:2377 --listen-addr 192.168.99.100:2377
+
+
+Created one virtual machine named myvm1
+> docker-machine create --driver virtualbox myvm1
+
+Check the list of VMs
+> docker-machine ls
+
+Get the command for joining node as worker node
+> docker swarm join-token worker
+
+Join the myvm1 node as worker node
+> docker-machine ssh myvm1 "docker swarm join --token SWMTKN-1-2ddw3k3sxmwmh4gg6xltn590mhrynus9xoj2rst2z2duarluqg-1hdytwhd6rn80chumv8iuqh6m 192.168.99.100:2377
+ --advertise-addr 192.168.99.101:2377 --listen-addr 192.168.99.101:2377"
+
+Check the node status
+> docker node ls
+
+Deploy the stack
+> docker stack deploy -c _docker-compose.yml pivotservice
+
+Get the Info
+> docker service ls
+> docker stack ps pivotservice
+
+We got an error in myvm1 "<image name> not found"
+because the images is only at our default VM (not in the myvm1 or in registry).
+So, Either we have to push the images to registry so that any VM can pull it from there 
+OR we can copy the same images to every VM
+
+For 2nd approach,
+
+Switch the terminal for default VM to myvm1
+> docker-machine env myvm1
+> @FOR /f "tokens=*" %i IN ('docker-machine env myvm1') DO @%i
+
+Now we have switched to myvm1 terminal
+
+Let's check is there any docker image present in myvm1 
+> docker images
+we got no image here
+
+Now build the images
+> docker-compose build
+
+Once the images are build here then switch to our default terminal
+> docker-machine env default
+> @FOR /f "tokens=*" %i IN ('docker-machine env default') DO @%i
+
+
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+			
