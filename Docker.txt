@@ -95,8 +95,12 @@ Sample MicroServices Project:
 ======================================================================================
 DOCKER SWARM
 
+Get the VM IP Address 
+> docker-machine ip
+
 Initialize the docker swarm and make current node a manager
-> docker swarm init --advertise-addr 192.168.99.100:2377 --listen-addr 192.168.99.100:2377
+> docker swarm init --advertise-addr <VM IP Address>:2377 --listen-addr <VM IP Address>:2377
+eg:  docker swarm init --advertise-addr 192.168.99.100:2377 --listen-addr 192.168.99.100:2377
 
 
 Created one virtual machine named myvm1
@@ -109,7 +113,9 @@ Get the command for joining node as worker node
 > docker swarm join-token worker
 
 Join the myvm1 node as worker node
-> docker-machine ssh myvm1 "docker swarm join --token SWMTKN-1-2ddw3k3sxmwmh4gg6xltn590mhrynus9xoj2rst2z2duarluqg-1hdytwhd6rn80chumv8iuqh6m 192.168.99.100:2377
+> docker-machine ssh myvm1 "<command got for joining a worker node> --advertise-addr <myvm1 IP>:2377 --listen-addr <myvm1 IP>:2377"
+ 
+eg:  docker-machine ssh myvm1 "docker swarm join --token SWMTKN-1-2ddw3k3sxmwmh4gg6xltn590mhrynus9xoj2rst2z2duarluqg-1hdytwhd6rn80chumv8iuqh6m 192.168.99.100:2377
  --advertise-addr 192.168.99.101:2377 --listen-addr 192.168.99.101:2377"
 
 Check the node status
@@ -123,23 +129,27 @@ Get the Info
 > docker stack ps pivotservice
 
 We got an error in myvm1 "<image name> not found"
-because the images is only at our default VM (not in the myvm1 or in registry).
+because the images is only at our default VM (not in myvm1 or in docker hub registry).
 So, Either we have to push the images to registry so that any VM can pull it from there 
 OR we can copy the same images to every VM
 
+First remove the deployed stack named pivotservice
+> docker stack rm pivotservice
+
 For 2nd approach,
 
-Switch the terminal for default VM to myvm1
+Switch the terminal from default VM to myvm1
 > docker-machine env myvm1
 > @FOR /f "tokens=*" %i IN ('docker-machine env myvm1') DO @%i
 
 Now we have switched to myvm1 terminal
 
-Let's check is there any docker image present in myvm1 
+Let's check Is there any docker image present in myvm1 
 > docker images
-we got no image here
+we got no image here because we have just created this VM (myvm1)
 
-Now build the images
+Now build the images for myvm1 docker engine
+Move to the directory which contains docker-compose.yml file
 > docker-compose build
 
 Once the images are build here then switch to our default terminal
@@ -147,8 +157,25 @@ Once the images are build here then switch to our default terminal
 > @FOR /f "tokens=*" %i IN ('docker-machine env default') DO @%i
 
 
+Again deploy the stack
+> docker stack deploy -c _docker-compose.yml pivotservice
 
+Get the Info
+> docker service ls
+> docker stack ps pivotservice
 
+If all the containers is in running state in both VMs then
+Connect the Minfire VPN and wait for 4-5 mins
+
+Check the pivot API
+http://<any of the VM IP>:5106/AdvSearch/GetStates
+eg: http://192.168.99.100:5106/AdvSearch/GetStates
+
+It may take some time to load or you may need to refresh it for few times
+
+====================================================================================
+> docker service inspect ps <service name>
+Service: a group of containers of the same image:tag
 
 
 
