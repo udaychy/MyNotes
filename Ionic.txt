@@ -16,3 +16,112 @@
 **ion-menu
 	side menu, <ion-menu> element should be added as a sibling to the <ion-nav>.
 	A local variable should be added to the ion-nav and passed to the ion-menus content property.
+	
+Ionic commands:
+
+Start Android virtual device.
+1.
+Go to path: C:\Users\udayc\AppData\Local\Android\Sdk\tools\bin
+Run command : avdmanager list avd
+	-This gives the list of devices present-
+	
+2.
+Go to path: C:\Users\udayc\AppData\Local\Android\Sdk\tools
+Run command : emulator -avd Pixel_API_22
+
+sometimes need to use.. adb kill-server and adb start-server
+
+
+Run the Ionic app inside AVD
+
+1.Add platform for Android
+	ionic cordova platform add android
+
+1.a. If problem 
+ionic integrations enable cordova --add
+
+2. ionic cordova run android
+
+3.Build
+4.Key generation
+ industry standard format using "keytool -importkeystore -srckeyst
+ore my-release-key.jks -destkeystore my-release-key.jks -deststoretype pkcs12".
+
+
+
+Run the Ionic app inside AVD
+
+1.Add platform for Android
+	ionic cordova platform add android
+
+1.a. If problem 
+ionic integrations enable cordova --add
+
+2. ionic cordova run android
+
+3.Build
+4.Key generation
+ industry standard format using "keytool -importkeystore -srckeyst
+ore my-release-key.jks -destkeystore my-release-key.jks -deststoretype pkcs12".
+
+
+
+I have used Xcode v9.4.1 and iPhone 5 with IOS v10.3 for testing.
+
+Ionic App Part
+1. Run the command below to add ios platform 
+>> ionic cordova platform add ios
+
+It may show you an error : [Error]Cannot load ./config.xml
+if it happens, Run the command below to integrate cordova 
+
+>> ionic integrations enable cordova --add
+
+then add the platform
+>> ionic cordova platform add ios
+
+One Xcode project will be created named 'ios' inside the platforms folder.
+
+2. Build the Ionic App for ios
+>> ionic cordova build ios
+
+Xcode part
+
+1. Login with Apple ID
+1. Open Xode preferences (Xcode > Preferences)
+2. Click the ‘Accounts’ tab
+3. Login with your Apple ID.
+Either create a new one or you can use mine
+AppleID : ucbro1994@gmail.com
+Password: Apple@1994
+
+2. Open the .xcodeproj file in platforms/ios/ in Xcode
+
+3. Connect your phone via USB and select it as the run target(Xcode-Select RunTarget.PNG)
+	While connecting it may ask you to trust the device.
+	
+4. Go to the ‘Project Editor’ by clicking the name or your project in the ‘Project Navigator’ (Xcode.PNG - 7)
+	Select the ‘General’ section(Xcode.PNG - 8)
+	Select the team associate with your signing certificate from the ‘Team’ dropdown in the ‘Signing’ section(Xcode.PNG - 3)
+	
+	If it show you some error related to Bundle Identifier(Xcode_BundleIdentifierError.PNG - 5) then change the Bundle Identifier to some other name like 'io.ionic.termquote' and hover out to create Provisioning Profile.
+
+5. Change the Deployment Target version to the IOS version of connected iPhone.(Xcode.PNG - 4)
+	You can check the iPhone version from "Setting > General > About > Version".
+
+6. Run the Xcode Project by clicking the Play button (Xcode.PNG - 6)
+	This will give you an error (Xcode_LaunchFail.JPG)
+	Verfify this on your iPhone: "Setting > General > Device Management > Tap 'Trust <AppleId>'"(IPhone_Verify.JPG)
+	Again click the play button.
+	
+	This will install and launch the App in iPhone.
+	
+
+Above steps worked for me
+I have tested the App in iPhone, eveything looks good to me except that menu and back button on the page navbar is hidden.
+
+Thanks,
+Uday
+
+
+

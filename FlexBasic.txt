@@ -36,3 +36,6 @@ align-items: flex-start/flex-end/center/stretch/baseline
 
 *child property
  align-self : just to override the align-items value for specific child
+ 
+ flex-shrink: 0 - maintiain the minimum height/width of the child elements when flex-flow is set to 'nowrap', means doesn't shrink. and the container will overflow.
+ 

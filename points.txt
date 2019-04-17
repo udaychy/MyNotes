@@ -1,4 +1,4 @@
-- Async code emits events then only we come the know the task is completed 
+﻿- Async code emits events then only we come the know the task is completed 
 - We should hide the implementation details to other classes/modules/files
 - Factory is method which returns object
 
@@ -66,7 +66,10 @@ Design Pattern:
 
 REST API
 REST allows a greater variety of data formats, whereas SOAP only allows XML.
-
+Stateless, CookieLess
+Seperation of Concern: Loosely coupled with Client side
+Use different HTTP Verbs(Get, Post, Put, Delete) for CRUD operation on same Action name, instead of using same Verb with different Action name.
+HATEOAS
 
 
 
